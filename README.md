@@ -12,3 +12,8 @@ python manage.py runserver
 Once you do this, you will receive a link in the terminal in the form of (for example) 127.0.0.1:8000
 
 Open this link on your browser and you will be prompted to login or sign up.
+
+The superuser/admin credentials are:
+
+Username: root
+Password: password@123
