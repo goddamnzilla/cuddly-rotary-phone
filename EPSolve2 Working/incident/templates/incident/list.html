@@ -1,0 +1,95 @@
+<html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    h3{
+        font-family: cursive;
+    }
+
+	body{
+		background-color: #2ec1cc;
+	}
+
+	input{
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		box-sizing: border-box;
+	}
+
+	input::placeholder {
+	  color: #d3d3d30a;
+	}
+
+	.submit{
+		background-color: #6BA3E8;
+	}
+
+	.center-column{
+		width:800px;
+		margin: 20px auto;
+		padding:20px;
+		background-color: #fff;
+		border-radius: 3px;
+		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
+	}
+
+	.item-row{
+		background-color: #151d3a;
+		margin: 10px;
+		padding: 20px;
+		border-radius: 3px;
+		color: #fff;
+		font-size: 16px;
+		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
+	}
+
+	.btn-danger{
+		background-color: #ff0808;
+		border-color: #e59400;
+	}
+
+</style>
+
+<center><form action="{% url 'signout' %}" method="post">{% csrf_token %}<button type="submit">Sign Out</button></form></center>
+<center><img src="https://electronicpay.in/wp-content/uploads/2019/01/EPS-Logo-1.png" width = "300" height = "100"></center>
+    <div class="center-column">
+
+        <form method="POST" action="{% url 'list' %}">
+            {% csrf_token %}
+            <p>Enter ATM ID:{{form.atm_id}}</p>
+			<p>Enter Comments:{{form.ticket_details}}</p>
+			<p>Enter City:{{form.city}}</p>
+            <input class="btn-info" type="submit" name="create_ticket">
+        </form>
+        <div class="">
+        {% for ticket in tickets %}
+        <div class="item-row">
+            {% if ticket.solved == True %}
+			<strike>
+				<p>ATM ID: <b>{{ticket.atm_id}}</b></p>
+				<p>City: <b>{{ticket.city}}</b></p>
+				<p>Comments: <b>{{ticket.ticket_details}}</b></p>
+			</strike>
+				<p>Solved: Yes</p>
+				<p>Date Created: {{ticket.created}}</p>
+				<p>Last Updated: {{ticket.updated}}</p>
+				<p>Updated By: {{ticket.updated_by}}</p>
+				{% else %}
+			<span>
+				<p>ATM ID: <b>{{ticket.atm_id}}</b></p>
+				<p>City: <b>{{ticket.city}}</b></p>
+				<p>Comments: <b>{{ticket.ticket_details}}</b></p>
+				<p>Solved: No</p>
+				<p>Date Created: {{ticket.created}}</p>
+				<p>Last Updated: {{ticket.updated}}</p>
+				<p>Updated By: {{ticket.updated_by}}</p>
+			</span>
+            {% endif %}
+			<a class="btn-info btn-sm" href="{% url 'update_ticket' ticket.id %}">Update</a>
+			<a class="btn-danger btn-sm" href="{% url 'delete_ticket' ticket.id %}">Delete</a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+</html>
